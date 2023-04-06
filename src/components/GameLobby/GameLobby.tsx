@@ -1,7 +1,8 @@
 import { IStackScreenProps } from "../../props/StackScreenProp";
 import React from "react";
-import { Button, View } from "react-native";
+import { View } from "react-native";
 import styles from "./GameLobby.style";
+import Button from "../Button/Button";
 
 const GameLobby: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [navigation, route, nameProp] = [props.navigation, props.route, props.nameProp];
