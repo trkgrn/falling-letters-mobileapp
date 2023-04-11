@@ -5,7 +5,7 @@ import Fonts from "../../styles/Fonts";
 const deviceSize = Dimensions.get("window");
 
 
-const baseStyle=StyleSheet.create({
+const baseContainer =StyleSheet.create({
   container:{
     marginTop: 5,
     marginLeft: 5,
@@ -15,21 +15,43 @@ const baseStyle=StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderStyle: "solid",
+  }
+});
+
+
+const baseStyle=StyleSheet.create({
+  container:{
+    ...baseContainer.container
+  },
+  vowelContainer:{
+    ...baseContainer.container,
     borderRadius: 20,
+  },
+  consonantContainer:{
+    ...baseContainer.container,
+    borderRadius: 10
   }
 });
 
 
 export default StyleSheet.create({
-  letterContainer: {
-    backgroundColor: Colors.defaultTitle,
-    ...baseStyle.container
+  vowelContainer: {
+    ...baseStyle.vowelContainer,
+    backgroundColor: Colors.vowels
   },
-  letterContainerClicked: {
-    backgroundColor: '#6ac4c7',
+  vowelContainerClicked: {
+    backgroundColor: Colors.clicked,
     borderWidth: 2,
-    borderColor: Colors.defaultTitle,
-    ...baseStyle.container
+    ...baseStyle.vowelContainer
+  },
+  consonantContainer: {
+    ...baseStyle.consonantContainer,
+    backgroundColor: Colors.consonants
+  },
+  consonantContainerClicked: {
+    backgroundColor: Colors.clicked,
+    borderWidth: 2,
+    ...baseStyle.consonantContainer
   },
   emptyContainer: {
     backgroundColor: "transparent",

@@ -1,6 +1,7 @@
 import { Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./LetterCard.style";
 import { FC } from "react";
+import letters from "../../config/letters";
 
 interface ILetterCardProps {
   letter: any;
@@ -8,26 +9,46 @@ interface ILetterCardProps {
 }
 const LetterCard:FC<ILetterCardProps> = ({letter,onCardPress}) => {
 
+  const vowels = letters.vowels
+  const consonants = letters.consonants
 
-    if (letter.isClicked) {
+  if (letter.value != "") {
+    if (vowels.includes(letter.value)) {
       return (
-        <TouchableWithoutFeedback onPress={onCardPress}>
-          <View style={styles.letterContainerClicked}>
-            <Text style={styles.text}>{letter.value}</Text>
-          </View>
-        </TouchableWithoutFeedback>);
-    }else {
+        letter.isClicked ?
+          <TouchableWithoutFeedback onPress={onCardPress}>
+            <View style={styles.vowelContainerClicked}>
+              <Text style={styles.text}>{letter.value}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          :
+          <TouchableWithoutFeedback onPress={onCardPress}>
+            <View style={styles.vowelContainer}>
+              <Text style={styles.text}>{letter.value}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+      );
+    } else {
       return (
-      letter.value !== "" ?
-        <TouchableWithoutFeedback onPress={onCardPress}>
-          <View style={styles.letterContainer}>
-            <Text style={styles.text}>{letter.key+letter.value}</Text>
-          </View>
-        </TouchableWithoutFeedback>
-        :
-        <View style={styles.emptyContainer}></View>
+        letter.isClicked ?
+          <TouchableWithoutFeedback onPress={onCardPress}>
+            <View style={styles.consonantContainerClicked}>
+              <Text style={styles.text}>{letter.value}</Text>
+            </View>
+          </TouchableWithoutFeedback>
+          :
+          <TouchableWithoutFeedback onPress={onCardPress}>
+            <View style={styles.consonantContainer}>
+              <Text style={styles.text}>{letter.value}</Text>
+            </View>
+          </TouchableWithoutFeedback>
       );
     }
-};
-
+  }
+  else {
+    return (
+        <View style={styles.emptyContainer}></View>
+    );
+  }
+}
 export default LetterCard;
