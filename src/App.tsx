@@ -13,7 +13,7 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator initialRouteName="GameLobby">
         {routes.map((route, index) => (
-          <Stack.Screen key={index} name={route.name}>
+          <Stack.Screen key={index} name={route.name} options={route.options}>
             {(props) => <route.component nameProp={route.name} {...props} />}
           </Stack.Screen>
         ))}

@@ -7,9 +7,8 @@ export default StyleSheet.create({
     paddingVertical: 12,
     paddingHorizontal: 32,
     borderRadius: 5,
-    elevation: 3,
-    backgroundColor: '#2e78b7',
     margin: 10,
+    backgroundColor: 'rgb(195,66,93)',
   },
   buttonText: {
     fontSize: 18,

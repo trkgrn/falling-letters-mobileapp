@@ -6,10 +6,12 @@ const routes: IRouteProps[] = [
   {
     name: "GameLobby",
     component: GameLobby,
+    options: { headerShown: false},
   },
   {
     name: "GameScreen",
-    component: GameScreen
+    component: GameScreen,
+    options: {  headerShown: false},
   }
 ];
 

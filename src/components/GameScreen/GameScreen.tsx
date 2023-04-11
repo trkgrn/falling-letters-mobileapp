@@ -1,12 +1,16 @@
 import React, { useState } from "react";
 import styles from "./GameScreen.style";
-import { Text, View } from "react-native";
+import { Alert, Pressable, Text, ToastAndroid, View } from "react-native";
 import Button from "../Button/Button";
 import letters from "../../config/letters";
 import axios from "axios";
 import LetterCardList from "../LetterCardList/LetterCardList";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import PauseScreenModal from "../PauseScreenModal/PauseScreenModal";
+import { IStackScreenProps } from "../../props/StackScreenProp";
 
-const GameScreen = () => {
+const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const [navigation, route, nameProp] = [props.navigation, props.route, props.nameProp];
   const vowels = letters.vowels;
   const consonants = letters.consonants;
 
@@ -38,6 +42,9 @@ const GameScreen = () => {
   const [selectedLetter, setSelectedLetter] = useState<any[]>([]);
   const [score, setScore] = useState<number>(0);
   const [status, setStatus] = useState<string>("ACTIVE");
+  const [isPaused, setIsPaused] = useState<boolean>(false);
+  const [iconName, setIconName] = useState<string>("pause");
+  const [lastWords, setLastWords] = useState<string[]>([]);
 
   // Card Press Function
   function onCardPress(letter: any) {
@@ -98,10 +105,12 @@ const GameScreen = () => {
 
     if (word.length < 3) {
       console.log("Word is too short");
+      showToast("Word is too short");
     }else {
       axios.get("https://sozluk.gov.tr/gts?ara=" + word)
         .then((response) => {
           if (response.data.error) {
+            showToast('Word not found');
             console.log(response.data.error);
             return;
           }
@@ -112,6 +121,9 @@ const GameScreen = () => {
           let addedScore = calculateScore(letters);
           setScore(score + addedScore);
           deleteCards(letterCardList);
+          lastWords.push(word);
+          showToast(word + " " + addedScore + " points");
+
           // const data = JSON.parse(dataStr);
           // const anlamlarListe:any = data.anlamlarListe;
           // anlamlarListe.forEach((anlam: any) => {
@@ -134,9 +146,68 @@ const GameScreen = () => {
     setLetterCards([...letterCards]);
   }
 
+  function onPauseOrPlayPress() {
+    if (isPaused) {
+      setIsPaused(false);
+      setIconName("pause");
+      setStatus("ACTIVE")
+    } else {
+      setIsPaused(true);
+      setIconName("play");
+      setStatus("PAUSE")
+    }
+  }
+  function exitGame() {
+    Alert.alert(
+      "Exit Game",
+      "Are you sure you want to exit the game?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel"
+        },
+        { text: "OK", onPress: () => navigation.navigate("GameLobby") }
+      ],
+      { cancelable: false }
+    );
+  }
+  function showToast(message: string) {
+    ToastAndroid.show(message, ToastAndroid.SHORT);
+  }
+
+  function gameFinished() {
+    Alert.alert(
+      "Game Finished",
+      "Your score is " + score,
+      [
+        { text: "Back To Lobby", onPress: () => navigation.navigate("GameLobby")},
+      ],
+      { cancelable: false }
+    );
+  }
+
+  if (status === "INACTIVE") {
+    gameFinished();
+  }
+
   return (
     <View style={styles.container}>
-      <Text style={styles.score}>Score:{score} Status:{status}</Text>
+      <PauseScreenModal isPaused={isPaused} resumeGame={onPauseOrPlayPress}
+                        lastWords={lastWords} exitGame={exitGame}></PauseScreenModal>
+      <View style={styles.navContainer}>
+
+            <Pressable onPress={onPauseOrPlayPress}>
+              <View style={styles.pauseAndPlayButton}>
+              <Icon name={iconName} color={'black'}></Icon>
+              </View>
+            </Pressable>
+
+        <View style={styles.scoreContainer}>
+          <Text style={styles.score}>{score}</Text>
+        </View>
+      </View>
+
       <View style={styles.letterListContainer}>
         <LetterCardList letterCards={letterCards} setLetterCards={setLetterCards} letterList={letterList}
                         setLetterList={setLetterList} score = {score}
