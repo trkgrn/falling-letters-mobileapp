@@ -1,0 +1,49 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/LexendTera-Black.ttf",
+      "sha1": "65574802769fd4309ab5a6cbf6801697c1bde7e0"
+    },
+    {
+      "path": "assets/fonts/LexendTera-Bold.ttf",
+      "sha1": "dcbea50f2b8c61bc6d6017877f66b66367b55011"
+    },
+    {
+      "path": "assets/fonts/LexendTera-ExtraBold.ttf",
+      "sha1": "570d01cf743b9a9627a95105ea437bcb5873bc64"
+    },
+    {
+      "path": "assets/fonts/LexendTera-ExtraLight.ttf",
+      "sha1": "e8e46e7cc2bb1e61d30c8362c2062612598f855c"
+    },
+    {
+      "path": "assets/fonts/LexendTera-Light.ttf",
+      "sha1": "28447c57853831868fd24446061c23eb1e1ceb7e"
+    },
+    {
+      "path": "assets/fonts/LexendTera-Medium.ttf",
+      "sha1": "6280939e8b7a5926dd15c616915a1b5de3584258"
+    },
+    {
+      "path": "assets/fonts/LexendTera-Regular.ttf",
+      "sha1": "476ed24c9bc0fcb5f52b1c5a2f72a4ed082f76ca"
+    },
+    {
+      "path": "assets/fonts/LexendTera-SemiBold.ttf",
+      "sha1": "94e7edc23b6e4bcaccf5145e4e79f10446eb06b4"
+    },
+    {
+      "path": "assets/fonts/LexendTera-Thin.ttf",
+      "sha1": "611759a44f3112f8bcdd766ffa403ee9a46f4142"
+    },
+    {
+      "path": "assets/fonts/nunito-regular.ttf",
+      "sha1": "b1029b1d966d1732e6241677773393a313585fb3"
+    },
+    {
+      "path": "assets/fonts/SpaceMono-Regular.ttf",
+      "sha1": "fae3a5a43b50e0408fd61e14383d94a023d332b0"
+    }
+  ]
+}
