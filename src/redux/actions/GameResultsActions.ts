@@ -7,6 +7,7 @@ export const addGameResult = (gameResult:GameResult) => {
   };
 }
 
+
 export const resetGameResult = () => {
   return {
     type: "RESET_GAME_RESULTS",
