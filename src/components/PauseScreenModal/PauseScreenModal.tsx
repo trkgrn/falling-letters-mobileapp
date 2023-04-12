@@ -14,7 +14,7 @@ const PauseScreenModal:FC<IPauseScreenModalProps> = ({isPaused,resumeGame,exitGa
 
 
   return (
-    <Modal isVisible={isPaused} style={styles.modalContainer} onBackdropPress={resumeGame}>
+    <Modal isVisible={isPaused} style={styles.modalContainer} onBackdropPress={resumeGame} >
       <View style={styles.innerContainer}>
         <Text style={styles.title}>P A U S E</Text>
         <View style={styles.buttonContainer}>

@@ -5,17 +5,26 @@ import Button from "../Button/Button";
 import letters from "../../config/letters";
 import axios from "axios";
 import LetterCardList from "../LetterCardList/LetterCardList";
-import Icon from 'react-native-vector-icons/FontAwesome5';
+import Icon from "react-native-vector-icons/FontAwesome5";
 import PauseScreenModal from "../PauseScreenModal/PauseScreenModal";
 import { IStackScreenProps } from "../../props/StackScreenProp";
+import { useDispatch, useSelector } from "react-redux";
+import { GameResult } from "../../models/GameResult";
+import { Word } from "../../models/Word";
+import { addGameResult } from "../../redux/actions/GameResultsActions";
 
 const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
+  const dispatch = useDispatch();
+  const state = useSelector((state: any) => state);
+
+
   const [navigation, route, nameProp] = [props.navigation, props.route, props.nameProp];
   const vowels = letters.vowels;
   const consonants = letters.consonants;
 
   // Letter List Generator
   let letterStrList: any = [];
+
   function initLetterCards(): any {
     for (let i = 0; i < 24; i++) {
       if (i % 5 < 3) { // Add a vowel with 60% probability
@@ -34,6 +43,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     }
     return cards;
   }
+
   const letterObjList = initLetterCards();
 
   // State Variables
@@ -45,6 +55,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [isPaused, setIsPaused] = useState<boolean>(false);
   const [iconName, setIconName] = useState<string>("pause");
   const [lastWords, setLastWords] = useState<string[]>([]);
+  const [gameResult, setGameResult] = useState<GameResult>(new GameResult(0, []));
 
   // Card Press Function
   function onCardPress(letter: any) {
@@ -68,12 +79,14 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     });
     return score;
   }
+
   function deleteCard(letter: any) {
     letterCards[letter.key].value = "";
     letterCards[letter.key].isClicked = false;
     setLetterCards([...letterCards]);
   }
-  function deleteCards(selectedCardList:any) {
+
+  function deleteCards(selectedCardList: any) {
     console.log("delete pressed");
     selectedCardList.forEach((letter: any) => {
       deleteCard(letter);
@@ -95,68 +108,72 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     }
     setLetterCards([...letterCards]);
   }
+
+
   function onOkPress() {
-    console.log("ok pressed");
     const word = selectedLetter.map(letter => letter.value).join("").toLocaleLowerCase("tr-TR");
     const letters = selectedLetter.map((letter: any) => letter.value);
     const letterCardList = selectedLetter.map((letter: any) => letter);
-    console.log(word);
-    console.log(word.toLocaleLowerCase("tr-TR"));
 
     if (word.length < 3) {
       console.log("Word is too short");
       showToast("Word is too short");
-    }else {
+    } else {
       axios.get("https://sozluk.gov.tr/gts?ara=" + word)
         .then((response) => {
           if (response.data.error) {
-            showToast('Word not found');
+            showToast("Word not found");
             console.log(response.data.error);
             return;
           }
 
-          let dataStr = JSON.stringify(response.data);
-          dataStr = dataStr.substring(1, dataStr.length - 1);
-          console.log(dataStr);
+          let data = response.data[0];
+          saveWord(data, word);
           let addedScore = calculateScore(letters);
           setScore(score + addedScore);
           deleteCards(letterCardList);
-          lastWords.push(word);
           showToast(word + " " + addedScore + " points");
-
-          // const data = JSON.parse(dataStr);
-          // const anlamlarListe:any = data.anlamlarListe;
-          // anlamlarListe.forEach((anlam: any) => {
-          //   console.log(anlam.anlam);
-          // });
         }).catch((error) => {
         console.log(error);
       });
     }
-
-
-
   }
+
   function onResetPress() {
-    console.log("reset pressed");
     letterCards.forEach((card: any) => {
       card.isClicked = false;
     });
     setSelectedLetter([]);
     setLetterCards([...letterCards]);
+
+
+    console.log(state.gameResults.length);
+    console.log(state.gameResults);
+
+
   }
 
   function onPauseOrPlayPress() {
     if (isPaused) {
       setIsPaused(false);
       setIconName("pause");
-      setStatus("ACTIVE")
+      setStatus("ACTIVE");
     } else {
       setIsPaused(true);
       setIconName("play");
-      setStatus("PAUSE")
+      setStatus("PAUSE");
     }
   }
+
+  function saveWord(data: any, word: string) {
+    lastWords.push(word);
+    const meanings = data.anlamlarListe.map((item: any) => item.anlam);
+    const wordObj = new Word(word, meanings);
+    let res = { ...gameResult };
+    res.words!.push(wordObj);
+    setGameResult(res);
+  }
+
   function exitGame() {
     Alert.alert(
       "Exit Game",
@@ -172,16 +189,25 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       { cancelable: false }
     );
   }
+
   function showToast(message: string) {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   }
 
   function gameFinished() {
+    setStatus("FINISHED");
     Alert.alert(
       "Game Finished",
       "Your score is " + score,
       [
-        { text: "Back To Lobby", onPress: () => navigation.navigate("GameLobby")},
+        {
+          text: "Back To Lobby", onPress: () => {
+            let res = { ...gameResult };
+            res.score = score;
+            dispatch(addGameResult(res));
+            navigation.navigate("GameLobby");
+          }
+        }
       ],
       { cancelable: false }
     );
@@ -197,11 +223,11 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
                         lastWords={lastWords} exitGame={exitGame}></PauseScreenModal>
       <View style={styles.navContainer}>
 
-            <Pressable onPress={onPauseOrPlayPress}>
-              <View style={styles.pauseAndPlayButton}>
-              <Icon name={iconName} color={'black'}></Icon>
-              </View>
-            </Pressable>
+        <Pressable onPress={onPauseOrPlayPress}>
+          <View style={styles.pauseAndPlayButton}>
+            <Icon name={iconName} color={"black"}></Icon>
+          </View>
+        </Pressable>
 
         <View style={styles.scoreContainer}>
           <Text style={styles.score}>{score}</Text>
@@ -210,7 +236,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
       <View style={styles.letterListContainer}>
         <LetterCardList letterCards={letterCards} setLetterCards={setLetterCards} letterList={letterList}
-                        setLetterList={setLetterList} score = {score}
+                        setLetterList={setLetterList} score={score}
                         status={status} setStatus={setStatus} onLetterPress={onCardPress}></LetterCardList>
       </View>
       <View style={styles.resultContainer}>
@@ -222,6 +248,6 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       </View>
     </View>
   );
-}
+};
 
 export default GameScreen;
