@@ -99,8 +99,8 @@ const LetterCardList: FC<ILetterCardListProps> = ({
     if (status === "ACTIVE" && !lock) {
       setLock(true);
       console.log("Delaying for " + getDelayTime() + "ms");
-      await delay(getDelayTime());
       await addLetter();
+      await delay(getDelayTime());
       setLock(false);
     }
   }

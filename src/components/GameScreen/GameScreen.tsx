@@ -93,7 +93,11 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       deleteCard(letter);
     });
     setSelectedLetter([]);
+    fixCards();
 
+  }
+
+  function fixCards() {
     for (let i = 79; i >= 0; i--) {
       if (letterCards[i].value === "") {
         for (let j = i - 8; j >= 0; j -= 8) {
@@ -110,8 +114,8 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     setLetterCards([...letterCards]);
   }
 
-
   function onOkPress() {
+    if (status != "ACTIVE") return;
     const word = selectedLetter.map(letter => letter.value).join("").toLocaleLowerCase("tr-TR");
     const letters = selectedLetter.map((letter: any) => letter.value);
     const letterCardList = selectedLetter.map((letter: any) => letter);
@@ -198,7 +202,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     ToastAndroid.show(message, ToastAndroid.SHORT);
   }
 
-  function gameFinished() {
+  function onGameFinished() {
     setStatus("FINISHED");
     Alert.alert(
       "Game Finished",
@@ -217,13 +221,42 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     );
   }
 
+  async function punish() {
+    let letterArr: string[] = [];
+    for (let i = 0; i < 8; i++) {
+      const vowelRatio = letterList.filter((letter: any) => vowels.includes(letter)).length / letterList.length;
+      let newLetter = "";
+      if (vowelRatio < 0.6) {
+        newLetter = vowels[Math.floor(Math.random() * vowels.length)];
+      } else {
+        newLetter = consonants[Math.floor(Math.random() * consonants.length)];
+      }
+      letterArr.push(newLetter);
+      letterList.push(newLetter);
+    }
+    letterArr.forEach((letter: string, index) => {
+      letterCards[index].value = letter;
+      letterCards[index].isClicked = false;
+    });
+    setLetterCards([...letterCards]);
+    await new Promise((resolve:any) => setTimeout(resolve, 3000));
+    fixCards();
+  }
+
   if (status === "INACTIVE") {
-    gameFinished();
+    onGameFinished();
   }
 
   if (faultCount === 3) {
-    console.log("fault count 3");
+    setStatus("FAILED");
+    fixCards();
     setFaultCount(0);
+    punish().then(() => {
+      setStatus("ACTIVE");
+      console.log("fault count 0");
+    });
+    console.log("fault count 3");
+
   }
 
   return (
@@ -252,7 +285,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         <Text style={styles.resultText}>{selectedLetter.map(letter => letter.value)}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title={"OK"} onPress={onOkPress}></Button>
+        <Button title={"OK"} onPress={onOkPress} disabled={status=='FAILED'}></Button>
         <Button title={"Reset"} onPress={onResetPress}></Button>
       </View>
     </View>
