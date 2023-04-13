@@ -7,29 +7,30 @@ export default StyleSheet.create({
   container: {
     padding: 10,
     flex: 1,
-    backgroundColor: Colors.lightGrey
+    backgroundColor: Colors.ligthBlue
   },
   navContainer: {
     height: 50,
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems:"center",
   },
   scoreContainer: {
   },
   score: {
-    color: Colors.grey,
-    fontSize: 40,
-    fontFamily: Fonts.defaultFont
+    color: Colors.dark,
+    fontSize: 41,
+    fontFamily: Fonts.defaultFont,
   },
   letterListContainer: {
-    backgroundColor: Colors.darkGrey,
+    backgroundColor: Colors.darkBlue,
     flexDirection: "row",
     marginTop: 25,
     paddingBottom: 10,
     paddingLeft: 8,
   },
   resultContainer: {
-    backgroundColor: Colors.grey,
+    backgroundColor: Colors.cream,
     alignItems: "center",
     margin: 5,
     borderRadius: 10,
@@ -45,14 +46,16 @@ export default StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
   },
   pauseAndPlayButton: {
-    backgroundColor: Colors.grey,
+    backgroundColor: Colors.cream,
     width: deviceSize.width / 10,
     height: deviceSize.width / 10,
     borderRadius: 13,
     justifyContent: "center",
     alignItems: "center",
+
+
   }
 });

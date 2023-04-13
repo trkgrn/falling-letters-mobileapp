@@ -37,7 +37,7 @@ const baseStyle=StyleSheet.create({
 export default StyleSheet.create({
   vowelContainer: {
     ...baseStyle.vowelContainer,
-    backgroundColor: Colors.vowels
+    backgroundColor: Colors.ligthBlue
   },
   vowelContainerClicked: {
     backgroundColor: Colors.clicked,
@@ -46,7 +46,7 @@ export default StyleSheet.create({
   },
   consonantContainer: {
     ...baseStyle.consonantContainer,
-    backgroundColor: Colors.consonants
+    backgroundColor: Colors.cream
   },
   consonantContainerClicked: {
     backgroundColor: Colors.clicked,

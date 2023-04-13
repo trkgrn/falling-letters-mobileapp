@@ -21,7 +21,7 @@ export default StyleSheet.create({
     margin:0
   },
   innerContainer:{
-    backgroundColor:Colors.white,
+    backgroundColor:Colors.ligthBlue,
     height:deviceSize.height,
     padding:10,
   },

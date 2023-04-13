@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import Colors from "../../styles/Colors";
 
 export default StyleSheet.create({
   container: {
@@ -8,7 +9,7 @@ export default StyleSheet.create({
     paddingHorizontal: 32,
     borderRadius: 5,
     margin: 10,
-    backgroundColor: 'rgb(195,66,93)',
+    backgroundColor: Colors.darkBlue
   },
   buttonText: {
     fontSize: 18,
