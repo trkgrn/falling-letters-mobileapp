@@ -2,6 +2,7 @@ import { IRouteProps } from "../props/RouteProp";
 import GameLobby from "../components/GameLobby/GameLobby";
 import GameScreen from "../components/GameScreen/GameScreen";
 import ScoreList from "../components/ScoreList/ScoreList";
+import WordList from "../components/WordList/WordList";
 
 const routes: IRouteProps[] = [
   {
@@ -17,6 +18,11 @@ const routes: IRouteProps[] = [
   {
     name: "ScoreList",
     component: ScoreList,
+    options: {  headerShown: false}
+  },
+  {
+    name: "WordList",
+    component: WordList,
     options: {  headerShown: false}
   }
 ];

@@ -5,7 +5,7 @@ const deviceSize=Dimensions.get('window');
 
 const baseStyle = StyleSheet.create({
   button:{
-    backgroundColor:Colors.defaultTitle,
+    backgroundColor:Colors.white,
     borderRadius:50,
     justifyContent:'center',
     alignItems:'center',
@@ -21,12 +21,12 @@ export default StyleSheet.create({
     margin:0
   },
   innerContainer:{
-    backgroundColor:Colors.darkGrey,
+    backgroundColor:Colors.white,
     height:deviceSize.height,
     padding:10,
   },
   title:{
-    color:Colors.defaultTitle,
+    color:Colors.dark,
     textAlign:'center',
     fontSize:40,
     fontFamily: Fonts.nunitoRegular,
@@ -35,9 +35,9 @@ export default StyleSheet.create({
   input:{
     borderWidth:1,
     borderRadius:10,
-    borderColor:'white',
+    borderColor:'black',
     marginTop:30,
-    color:'white'
+    color:'black'
   },
   buttonContainer:{
     flexDirection:'row',
@@ -53,25 +53,24 @@ export default StyleSheet.create({
     backgroundColor: Colors.exit,
   },
   buttonPlaceHolder:{
-    color:Colors.defaultTitle,
+    color:Colors.white,
     fontSize:20,
     fontWeight:'bold',
   },
   lastWordsTitle:{
-    color: 'white',
+    color: 'black',
     fontSize:25,
     textAlign:'center',
     marginTop:30,
     fontFamily: 'LexendTera-Light'
   },
   lastWordsContainer:{
-    backgroundColor:Colors.darkGrey,
     flexDirection:'column',
     marginTop:30,
-    justifyContent:'center'
+    justifyContent:'center',
   },
   lastWordsText:{
-    color: 'white',
+    color: Colors.dark,
     fontSize:20,
     textAlign:'center',
     marginTop:10,

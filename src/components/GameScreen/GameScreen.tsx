@@ -56,6 +56,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [iconName, setIconName] = useState<string>("pause");
   const [lastWords, setLastWords] = useState<string[]>([]);
   const [gameResult, setGameResult] = useState<GameResult>(new GameResult(0, []));
+  const [faultCount, setFaultCount] = useState<number>(0);
 
   // Card Press Function
   function onCardPress(letter: any) {
@@ -115,8 +116,10 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     const letters = selectedLetter.map((letter: any) => letter.value);
     const letterCardList = selectedLetter.map((letter: any) => letter);
 
-    if (word.length < 3) {
-      console.log("Word is too short");
+    if (lastWords.includes(word)) {
+      showToast("Word is already found");
+      return;
+    } else if (word.length < 3) {
       showToast("Word is too short");
     } else {
       axios.get("https://sozluk.gov.tr/gts?ara=" + word)
@@ -124,6 +127,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           if (response.data.error) {
             showToast("Word not found");
             console.log(response.data.error);
+            setFaultCount(faultCount + 1);
             return;
           }
 
@@ -215,6 +219,11 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   if (status === "INACTIVE") {
     gameFinished();
+  }
+
+  if (faultCount === 3) {
+    console.log("fault count 3");
+    setFaultCount(0);
   }
 
   return (

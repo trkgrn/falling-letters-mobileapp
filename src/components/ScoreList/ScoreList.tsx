@@ -14,15 +14,14 @@ const ScoreList:React.FunctionComponent<IStackScreenProps> = (props) => {
 
 
   function onPress(result: any) {
-    console.log("result: ", result);
-    console.log("result.words: ", result.words);
+    navigation.navigate("WordList", { gameResult: result });
   }
 
 
   const renderGameResults = ({ item,index }: any) => (
     <TouchableWithoutFeedback onPress={()=> onPress(item)}>
       <View style={styles.scoreContainer}>
-        <Text style={styles.score}>{ (index+1)+"- " + item.score}</Text>
+        <Text style={styles.score}>{ item.score}</Text>
       </View>
     </TouchableWithoutFeedback>
 

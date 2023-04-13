@@ -2,6 +2,7 @@ import React, { FC, useState } from "react";
 import { FlatList, View } from "react-native";
 import LetterCard from "../LetterCard/LetterCard";
 import letters from "../../config/letters";
+import styles from "./LetterCardList.style";
 
 interface ILetterCardListProps {
   letterCards: any;
@@ -110,7 +111,7 @@ const LetterCardList: FC<ILetterCardListProps> = ({
     <LetterCard letter={item} onCardPress={() => onLetterPress(item)} />);
 
   return (
-    <View>
+    <View style={styles.container}>
       <FlatList data={letterCards}
                 renderItem={renderLetterCards}
                 numColumns={8}>

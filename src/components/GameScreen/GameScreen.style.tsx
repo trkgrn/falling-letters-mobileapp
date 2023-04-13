@@ -23,9 +23,10 @@ export default StyleSheet.create({
   },
   letterListContainer: {
     backgroundColor: Colors.darkGrey,
-    height: deviceSize.height / 1.65,
     flexDirection: "row",
-    marginTop: 25
+    marginTop: 25,
+    paddingBottom: 10,
+    paddingLeft: 8,
   },
   resultContainer: {
     backgroundColor: Colors.grey,
@@ -48,8 +49,8 @@ export default StyleSheet.create({
   },
   pauseAndPlayButton: {
     backgroundColor: Colors.grey,
-    width: 40,
-    height: 40,
+    width: deviceSize.width / 10,
+    height: deviceSize.width / 10,
     borderRadius: 13,
     justifyContent: "center",
     alignItems: "center",

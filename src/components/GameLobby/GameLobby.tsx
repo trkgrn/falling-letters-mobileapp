@@ -16,6 +16,7 @@ const GameLobby: React.FunctionComponent<IStackScreenProps> = (props) => {
       <Button title={"TOP 10"} onPress={() => {
         navigation.navigate("ScoreList");
       }} />
+
     </View>
   );
 }

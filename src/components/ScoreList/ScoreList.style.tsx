@@ -7,13 +7,14 @@ const deviceSize = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: Colors.lightGrey,
+    backgroundColor: Colors.white,
     alignItems: "center"
   },
   title: {
     fontSize: 40,
     fontFamily: Fonts.defaultFont,
-    marginTop: 20
+    marginTop: 20,
+    color: Colors.dark
   },
   scoreContainer: {
     alignItems: "center",
