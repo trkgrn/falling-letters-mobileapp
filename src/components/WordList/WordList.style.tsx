@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 import Colors from "../../styles/Colors";
+import Fonts from "../../styles/Fonts";
 
 
 const deviceSize = Dimensions.get("window");
@@ -7,13 +8,15 @@ const deviceSize = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: Colors.ligthBlue,
   },
   title: {
     fontSize: 40,
     marginTop: 20,
     textAlign: "center",
-    color: Colors.dark
+    color: Colors.dark,
+    fontFamily:Fonts.nunitoRegular,
+
 
   },
   itemWrapperStyle: {
@@ -22,6 +25,11 @@ export default StyleSheet.create({
     paddingVertical: 16,
     borderBottomWidth: 1,
     borderColor: "#ddd",
+    marginTop:5,
+    //marginBottom:5,
+    backgroundColor:Colors.darkBlue,
+    borderRadius:15,
+    margin:5,
   },
   contentWrapperStyle: {
     justifyContent: "space-around",
@@ -29,9 +37,10 @@ export default StyleSheet.create({
   word: {
     fontSize: 16,
     fontWeight: "bold",
+    color:Colors.dark,
   },
   meanings: {
-    color: "#777",
     margin : 5,
+    color:Colors.white,
   }
 });

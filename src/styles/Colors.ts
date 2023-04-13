@@ -4,13 +4,14 @@ const Colors = {
     dark: '#161616',
     white: 'white',
     defaultText: '#b3c6ff',
-    darkGrey: '#2d2d2d',
+    darkBlue: '#4A7376',
     grey: '#C0C0C0',
-    lightGrey: '#4d4d4d',
-    vowels: '#b76778',
-    consonants: '#b3c4b1',
+    lightGrey: '#ffffff',
+    ligthBlue: '#9FB1BCFF',
+    cream: '#D3D0CBFF',
     clicked: '#ffffff',
     resume: '#048975',
     exit: '#cc3656',
+    //ligthDark:''
 }
 export default Colors;
