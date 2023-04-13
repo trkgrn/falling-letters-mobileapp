@@ -175,6 +175,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   function saveWord(data: any, word: string) {
     lastWords.push(word);
+    setLastWords([...lastWords]);
     const meanings = data.anlamlarListe.map((item: any) => item.anlam);
     const wordObj = new Word(word, meanings);
     let res = { ...gameResult };

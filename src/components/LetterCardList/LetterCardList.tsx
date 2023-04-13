@@ -75,6 +75,7 @@ const LetterCardList: FC<ILetterCardListProps> = ({
 
   }
   async function addLetter() {
+    await delay(100);
     const vowelRatio = letterList.filter((letter: any) => vowels.includes(letter)).length / letterList.length;
     console.log("Vowel Ratio: " + vowelRatio + " length: " + letterList.length + " score: " + score +
       " lettercards: " + letterCards.length);
