@@ -7,8 +7,8 @@ const deviceSize = Dimensions.get("window");
 
 const baseContainer =StyleSheet.create({
   container:{
-    marginTop: 5,
-    marginLeft: 5,
+    marginTop: deviceSize.height / 150,
+    marginLeft: deviceSize.width / 80,
     width: deviceSize.width / 10,
     height: deviceSize.width / 10,
     textAlign: "center",
@@ -51,7 +51,7 @@ export default StyleSheet.create({
   consonantContainerClicked: {
     backgroundColor: Colors.clicked,
     borderWidth: 2,
-    ...baseStyle.consonantContainer
+    ...baseStyle.consonantContainer,
   },
   emptyContainer: {
     backgroundColor: "transparent",
@@ -59,7 +59,7 @@ export default StyleSheet.create({
   },
   text: {
     color: 'black',
-    fontSize: 20,
+    fontSize: deviceSize.height / 35,
     fontWeight: "bold"
   }
 

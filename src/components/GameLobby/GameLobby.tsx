@@ -1,6 +1,6 @@
 import { IStackScreenProps } from "../../props/StackScreenProp";
 import React from "react";
-import { View } from "react-native";
+import { StatusBar, View } from "react-native";
 import styles from "./GameLobby.style";
 import Button from "../Button/Button";
 
@@ -9,6 +9,7 @@ const GameLobby: React.FunctionComponent<IStackScreenProps> = (props) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar backgroundColor="black" />
       <Button title={"Start Game"} onPress={() => {
         navigation.navigate("GameScreen");
       }} />

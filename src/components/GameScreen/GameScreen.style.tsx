@@ -5,41 +5,47 @@ import Fonts from "../../styles/Fonts";
 const deviceSize = Dimensions.get("window");
 export default StyleSheet.create({
   container: {
-    padding: 10,
+    padding: deviceSize.width / 50,
     flex: 1,
     backgroundColor: Colors.ligthBlue
   },
   navContainer: {
-    height: 50,
+    height: deviceSize.height / 15,
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems:"center",
+    alignItems: "center"
   },
-  scoreContainer: {
+  faultContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+    width: deviceSize.width / 3,
+    height: deviceSize.width / 10
   },
+  scoreContainer: {},
   score: {
     color: Colors.dark,
-    fontSize: 41,
-    fontFamily: Fonts.defaultFont,
+    fontSize: deviceSize.height / 19,
+    fontFamily: Fonts.defaultFont
   },
   letterListContainer: {
     backgroundColor: Colors.darkBlue,
     flexDirection: "row",
-    marginTop: 25,
-    paddingBottom: 10,
-    paddingLeft: 8,
+    marginTop: deviceSize.height / 30,
+    paddingBottom: deviceSize.height / 70,
+    paddingTop: deviceSize.height / 70,
+    paddingLeft: deviceSize.width / 45,
   },
   resultContainer: {
     backgroundColor: Colors.cream,
     alignItems: "center",
-    margin: 5,
+    marginTop: deviceSize.height / 30,
     borderRadius: 10,
-    borderWidth: 2,
-
+    borderWidth: 2
   },
   resultText: {
-    color: 'black',
-    fontSize: 25,
+    color: "black",
+    fontSize: deviceSize.height / 30,
     fontWeight: "bold",
     fontFamily: Fonts.defaultFont
   },
@@ -47,6 +53,7 @@ export default StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
+    marginTop: deviceSize.height / 50
   },
   pauseAndPlayButton: {
     backgroundColor: Colors.cream,
@@ -54,8 +61,6 @@ export default StyleSheet.create({
     height: deviceSize.width / 10,
     borderRadius: 13,
     justifyContent: "center",
-    alignItems: "center",
-
-
+    alignItems: "center"
   }
 });

@@ -12,9 +12,9 @@ export default StyleSheet.create({
     alignItems: "center"
   },
   title: {
-    fontSize: 40,
+    fontSize: deviceSize.height * 0.055,
     fontFamily: Fonts.defaultFont,
-    marginTop: 20,
+    margin: deviceSize.height * 0.045,
     color: Colors.dark
   },
   scoreContainer: {
@@ -23,11 +23,12 @@ export default StyleSheet.create({
     height: deviceSize.height * 0.05,
     width: deviceSize.width * 0.8,
     backgroundColor: Colors.darkBlue,
-    marginTop: 10,
+    marginTop: deviceSize.height * 0.015,
+    marginBottom: deviceSize.height * 0.003,
     borderRadius: 10,
   },
   score: {
-    fontSize: 23,
+    fontSize: deviceSize.height * 0.030,
     fontFamily: Fonts.defaultFont,
     color:Colors.white,
   }

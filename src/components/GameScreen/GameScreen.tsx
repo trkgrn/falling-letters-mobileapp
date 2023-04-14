@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styles from "./GameScreen.style";
-import { Alert, Pressable, Text, ToastAndroid, View } from "react-native";
+import { Alert, Dimensions, Pressable, Text, ToastAndroid, View } from "react-native";
 import Button from "../Button/Button";
 import letters from "../../config/letters";
 import axios from "axios";
 import LetterCardList from "../LetterCardList/LetterCardList";
-import Icon from "react-native-vector-icons/FontAwesome5";
+import Icon from "react-native-vector-icons/Ionicons";
 import PauseScreenModal from "../PauseScreenModal/PauseScreenModal";
 import { IStackScreenProps } from "../../props/StackScreenProp";
 import { useDispatch, useSelector } from "react-redux";
@@ -13,6 +13,7 @@ import { GameResult } from "../../models/GameResult";
 import { Word } from "../../models/Word";
 import { addGameResult } from "../../redux/actions/GameResultsActions";
 
+const deviceSize = Dimensions.get("window");
 const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const dispatch = useDispatch();
   const state = useSelector((state: any) => state);
@@ -57,6 +58,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [lastWords, setLastWords] = useState<string[]>([]);
   const [gameResult, setGameResult] = useState<GameResult>(new GameResult(0, []));
   const [faultCount, setFaultCount] = useState<number>(0);
+  const [isAvailable, setIsAvailable] = useState<boolean>(true);
 
   // Card Press Function
   function onCardPress(letter: any) {
@@ -114,8 +116,9 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     setLetterCards([...letterCards]);
   }
 
-  function onOkPress() {
+  async function onOkPress() {
     if (status != "ACTIVE") return;
+    setIsAvailable(false);
     const word = selectedLetter.map(letter => letter.value).join("").toLocaleLowerCase("tr-TR");
     const letters = selectedLetter.map((letter: any) => letter.value);
     const letterCardList = selectedLetter.map((letter: any) => letter);
@@ -126,7 +129,7 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     } else if (word.length < 3) {
       showToast("Word is too short");
     } else {
-      axios.get("https://sozluk.gov.tr/gts?ara=" + word)
+      await axios.get("https://sozluk.gov.tr/gts?ara=" + word)
         .then((response) => {
           if (response.data.error) {
             showToast("Word not found");
@@ -141,10 +144,13 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
           setScore(score + addedScore);
           deleteCards(letterCardList);
           showToast(word + " " + addedScore + " points");
-        }).catch((error) => {
-        console.log(error);
-      });
+        })
+        .catch((error) => {
+          showToast("Internet connection error");
+        });
     }
+
+    setIsAvailable(true);
   }
 
   function onResetPress() {
@@ -236,41 +242,61 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       letterList.push(newLetter);
     }
     letterArr.forEach((letter: string, index) => {
+      if (letterCards[index].value !== "") {
+        setStatus("INACTIVE");
+        return;
+      }
       letterCards[index].value = letter;
       letterCards[index].isClicked = false;
     });
     setLetterCards([...letterCards]);
-    await new Promise((resolve:any) => setTimeout(resolve, 3000));
+    await new Promise((resolve: any) => setTimeout(resolve, 1000));
     fixCards();
+  }
+
+  async function punishEvents() {
+    setStatus("FAILED");
+    await fixCards();
+
+    await new Promise((resolve: any) => setTimeout(resolve, 500));
+    setFaultCount(0);
+    await punish();
+    setStatus("ACTIVE");
+    console.log("fault count 3");
   }
 
   if (status === "INACTIVE") {
     onGameFinished();
   }
 
-  if (faultCount === 3) {
-    setStatus("FAILED");
-    fixCards();
-    setFaultCount(0);
-    punish().then(() => {
-      setStatus("ACTIVE");
-      console.log("fault count 0");
+  if (faultCount === 3 && status === "ACTIVE") {
+    punishEvents().then(() => {
     });
-    console.log("fault count 3");
-
   }
+
+ // console.log(deviceSize.height/35);
 
   return (
     <View style={styles.container}>
       <PauseScreenModal isPaused={isPaused} resumeGame={onPauseOrPlayPress}
-                        lastWords={lastWords} exitGame={exitGame}></PauseScreenModal>
-      <View style={styles.navContainer}>
+                        lastWords={lastWords} exitGame={exitGame} />
 
+      <View style={styles.navContainer}>
         <Pressable onPress={onPauseOrPlayPress}>
           <View style={styles.pauseAndPlayButton}>
-            <Icon name={iconName} color={"black"}></Icon>
+            <Icon name={iconName} color={"black"} size={deviceSize.width/15}></Icon>
           </View>
         </Pressable>
+
+        <View style={styles.faultContainer}>
+          {
+            Array.of(1, 2, 3).map((item, index) => {
+              return (
+                <Icon key={item} name={"md-close"} color={index < faultCount ? "red" : "grey"} size={deviceSize.width / 10}></Icon>
+              );
+            })
+          }
+        </View>
 
         <View style={styles.scoreContainer}>
           <Text style={styles.score}>{score}</Text>
@@ -280,14 +306,14 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
       <View style={styles.letterListContainer}>
         <LetterCardList letterCards={letterCards} setLetterCards={setLetterCards} letterList={letterList}
                         setLetterList={setLetterList} score={score}
-                        status={status} setStatus={setStatus} onLetterPress={onCardPress}></LetterCardList>
+                        status={status} setStatus={setStatus} onLetterPress={onCardPress} />
       </View>
       <View style={styles.resultContainer}>
         <Text style={styles.resultText}>{selectedLetter.map(letter => letter.value)}</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <Button title={"OK"} onPress={onOkPress} disabled={status=='FAILED'}></Button>
-        <Button title={"Reset"} onPress={onResetPress}></Button>
+        <Button title={"OK"} onPress={onOkPress} disabled={status == "FAILED" || !isAvailable}/>
+        <Button title={"Reset"} onPress={onResetPress}/>
       </View>
     </View>
   );

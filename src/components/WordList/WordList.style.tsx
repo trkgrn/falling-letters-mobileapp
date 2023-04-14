@@ -11,36 +11,30 @@ export default StyleSheet.create({
     backgroundColor: Colors.ligthBlue,
   },
   title: {
-    fontSize: 40,
-    marginTop: 20,
+    fontSize: deviceSize.height * 0.055,
+    margin: deviceSize.height * 0.035,
     textAlign: "center",
     color: Colors.dark,
     fontFamily:Fonts.nunitoRegular,
-
-
   },
   itemWrapperStyle: {
     flexDirection: "row",
-    paddingHorizontal: 16,
-    paddingVertical: 16,
-    borderBottomWidth: 1,
-    borderColor: "#ddd",
-    marginTop:5,
-    //marginBottom:5,
+    paddingHorizontal: deviceSize.width * 0.04,
+    paddingVertical: deviceSize.height * 0.015,
     backgroundColor:Colors.darkBlue,
     borderRadius:15,
-    margin:5,
+    margin: deviceSize.height * 0.007,
   },
   contentWrapperStyle: {
     justifyContent: "space-around",
   },
   word: {
-    fontSize: 16,
+    fontSize: deviceSize.height * 0.022,
     fontWeight: "bold",
     color:Colors.dark,
   },
   meanings: {
-    margin : 5,
+    margin : deviceSize.height * 0.007,
     color:Colors.white,
   }
 });
