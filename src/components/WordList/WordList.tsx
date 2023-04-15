@@ -1,4 +1,4 @@
-import { Dimensions, FlatList, StatusBar, Text, TouchableWithoutFeedback, View } from "react-native";
+import { FlatList, Text, TouchableWithoutFeedback, View } from "react-native";
 import React from "react";
 import styles from "./WordList.style";
 import { IStackScreenProps } from "../../props/StackScreenProp";
@@ -8,8 +8,6 @@ const WordList: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [navigation, route, nameProp] = [props.navigation, props.route, props.nameProp];
   const gameResultObj: any = route.params;
   const gameResult = gameResultObj.gameResult;
-  let x = Dimensions.get("window").height * 0.007
-  console.log(x);
 
 
   const renderItem = ({ item }: any) => (

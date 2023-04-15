@@ -2,11 +2,9 @@ import { Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./LetterCard.style";
 import { FC } from "react";
 import letters from "../../config/letters";
+import { ILetterCardProps } from "../../props/LetterCardProp";
 
-interface ILetterCardProps {
-  letter: any;
-  onCardPress?: () => void;
-}
+
 const LetterCard:FC<ILetterCardProps> = ({letter,onCardPress}) => {
 
   const vowels = letters.vowels

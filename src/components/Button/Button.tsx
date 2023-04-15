@@ -1,12 +1,8 @@
-import { Pressable, Text} from "react-native";
+import { Pressable, Text } from "react-native";
 import styles from "./Button.style";
 import { FC } from "react";
+import { IButtonProps } from "../../props/ButtonProp";
 
-interface IButtonProps {
-  title: string;
-  onPress?: () => void;
-  disabled?: boolean;
-}
 
 const Button:FC<IButtonProps> =  ({title,onPress,disabled}) => {
   return (

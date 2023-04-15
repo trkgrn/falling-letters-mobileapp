@@ -1,14 +1,9 @@
-import Modal from 'react-native-modal';
+import Modal from "react-native-modal";
 import React, { FC } from "react";
 import { Text, TouchableWithoutFeedback, View } from "react-native";
 import styles from "./PauseScreenModal.style";
+import { IPauseScreenModalProps } from "../../props/PauseScreenModalProp";
 
-interface IPauseScreenModalProps {
-  isPaused: boolean;
-  resumeGame: () => void;
-  exitGame: () => void;
-  lastWords: string[];
-}
 
 const PauseScreenModal:FC<IPauseScreenModalProps> = ({isPaused,resumeGame,exitGame,lastWords}) => {
 

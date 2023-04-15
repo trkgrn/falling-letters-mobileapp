@@ -1,6 +1,5 @@
 import { Dimensions, StyleSheet } from "react-native";
 import Colors from "../../styles/Colors";
-import Fonts from "../../styles/Fonts";
 
 const deviceSize = Dimensions.get("window");
 

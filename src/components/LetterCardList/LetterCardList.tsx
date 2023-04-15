@@ -3,17 +3,7 @@ import { FlatList, View } from "react-native";
 import LetterCard from "../LetterCard/LetterCard";
 import letters from "../../config/letters";
 import styles from "./LetterCardList.style";
-
-interface ILetterCardListProps {
-  letterCards: any;
-  setLetterCards: any;
-  letterList: any;
-  setLetterList: any;
-  status: any;
-  setStatus: any;
-  score: any;
-  onLetterPress: (item: any) => void;
-}
+import { ILetterCardListProps } from "../../props/LetterCardListProp";
 
 const LetterCardList: FC<ILetterCardListProps> = ({
                                                     letterCards,
@@ -44,7 +34,6 @@ const LetterCardList: FC<ILetterCardListProps> = ({
 
   async function fallLetter(index: any, letter: any) {
     if (letter == "") return;
-    if (letterList.length === 0) return;
 
     letterCards[index].value = letter;
     setLetterCards([...letterCards]);
@@ -77,8 +66,6 @@ const LetterCardList: FC<ILetterCardListProps> = ({
   async function addLetter() {
     await delay(100);
     const vowelRatio = letterList.filter((letter: any) => vowels.includes(letter)).length / letterList.length;
-    console.log("Vowel Ratio: " + vowelRatio + " length: " + letterList.length + " score: " + score +
-      " lettercards: " + letterCards.length);
     const randomIndex = Math.floor(Math.random() * 8);
     if (letterCards[randomIndex].value != "") {
       status = "INACTIVE";
@@ -93,7 +80,6 @@ const LetterCardList: FC<ILetterCardListProps> = ({
       newLetter = consonants[Math.floor(Math.random() * consonants.length)];
     }
     await fallLetter(randomIndex, newLetter);
-    // console.log("Delaying for " + getDelayTime() + "ms");
 
   }
   async function addLetterControl() {

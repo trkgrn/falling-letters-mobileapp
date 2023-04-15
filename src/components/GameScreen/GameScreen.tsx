@@ -52,17 +52,16 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   const [letterList, setLetterList] = useState<any>([...letterStrList]);
   const [selectedLetter, setSelectedLetter] = useState<any[]>([]);
   const [score, setScore] = useState<number>(0);
+  const [faultCount, setFaultCount] = useState<number>(0);
   const [status, setStatus] = useState<string>("ACTIVE");
-  const [isPaused, setIsPaused] = useState<boolean>(false);
   const [iconName, setIconName] = useState<string>("pause");
   const [lastWords, setLastWords] = useState<string[]>([]);
   const [gameResult, setGameResult] = useState<GameResult>(new GameResult(0, []));
-  const [faultCount, setFaultCount] = useState<number>(0);
   const [isAvailable, setIsAvailable] = useState<boolean>(true);
-
+  const [isFinished, setIsFinished] = useState<boolean>(false);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
   // Card Press Function
   function onCardPress(letter: any) {
-    console.log("card pressed = " + letter.value + " " + letter.key);
     letterCards[letter.key].isClicked = !letterCards[letter.key].isClicked;
     setLetterCards([...letterCards]);
     if (letterCards[letter.key].isClicked) {
@@ -90,7 +89,6 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
   }
 
   function deleteCards(selectedCardList: any) {
-    console.log("delete pressed");
     selectedCardList.forEach((letter: any) => {
       deleteCard(letter);
     });
@@ -125,7 +123,6 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
 
     if (lastWords.includes(word)) {
       showToast("Word is already found");
-      return;
     } else if (word.length < 3) {
       showToast("Word is too short");
     } else {
@@ -133,8 +130,8 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
         .then((response) => {
           if (response.data.error) {
             showToast("Word not found");
-            console.log(response.data.error);
             setFaultCount(faultCount + 1);
+            setIsAvailable(true);
             return;
           }
 
@@ -159,11 +156,6 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     });
     setSelectedLetter([]);
     setLetterCards([...letterCards]);
-
-
-    console.log(state.gameResults.length);
-    console.log(state.gameResults);
-
 
   }
 
@@ -262,10 +254,10 @@ const GameScreen: React.FunctionComponent<IStackScreenProps> = (props) => {
     setFaultCount(0);
     await punish();
     setStatus("ACTIVE");
-    console.log("fault count 3");
   }
 
-  if (status === "INACTIVE") {
+  if (status === "INACTIVE" && !isFinished) {
+    setIsFinished(true);
     onGameFinished();
   }
 
