@@ -22,3 +22,10 @@ it was to develop a program.
 
 
 ![App](https://raw.githubusercontent.com/trkgrn/falling-letters-mobileapp/master/pics/yazlab-2.gif?token=GHSAT0AAAAAAB74I6GVYN5IQKW4JPIMXTY2ZDDJZEA)
+
+## Authors
+
+- [@trkgrn](https://www.github.com/trkgrn) Tarık Gören
+- [@furkanenesdagli](https://www.github.com/furkanenesdagli) Furkan Enes Dağlı
+
+  
